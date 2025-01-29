@@ -59,13 +59,13 @@ async def assistant(message: Message) -> dict | str:
                     user_id=message.from_user.id,
                 )
 
-                return f"""Title: {report["name"]}
-Site: {report['cite']}
-Description:
+                return f"""{report["name"]}
+{report['cite']}
+
 {report["description"]}
-Info:
-Year of foundation and country: {report["add_info"]["year"]}, {report["add_info"]["country"]}
-Projects: {report["add_info"]["projects"]}
+
+{report["add_info"]["year"]}, {report["add_info"]["country"]}
+{report["add_info"]["projects"]}
 """
 
 
