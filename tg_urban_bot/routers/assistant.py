@@ -61,7 +61,7 @@ async def assistant(message: Message) -> dict | str:
 
                 return f"""{report["name"]}
 {report['cite']}
-{report["add_info"]["year"]}, {report["add_info"]["country']}
+{report["add_info"]["year"]}, {report["add_info"]["country"]}
 
 {report["description"]}
 
