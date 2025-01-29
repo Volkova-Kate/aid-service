@@ -31,13 +31,13 @@ Here is an example request: We need a lobby interior design for an office buildi
 
 
 @dp.message(Command("bonus"))
-@description_meta("bonus", "Укажите пароль для получения бесплатных запросов.\nEnter the password for free requests.")
+@description_meta("bonus", "Пароль для новых запросов.\nPassword for new requests.")
 async def bonus_command(message: Message):
     if len(inp := message.text.split(" ")) > 1:
         password = inp[1]
         await message.answer(await free_bonus(message.from_user.id, password))
     else:
-        await message.answer("Ошибка!\nВведите пароль в сообщении с командой!\nWrong! Enter the password according to the command! ")
+        await message.answer("Ошибка!\nВведите пароль в сообщении с командой!\n\nWrong!\nEnter the password according to the command! ")
 
 
 @dp.message(Command("balance"))
@@ -45,7 +45,7 @@ async def bonus_command(message: Message):
 async def balance_command(message: Message):
     result = await check_user(message.from_user.id)
     await message.answer(
-        f"Подписка/subscription: {result['subscription']}\nКоличество запросов/number of requests: {result['available_requests']}"
+        f"Подписка: {result['subscription']}\nКоличество запросов: {result['available_requests']}\n\nSubscription: {result['subscription']}\nNumber of requests: {result['available_requests']}"
     )
 
 
