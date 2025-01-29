@@ -36,9 +36,9 @@ async def assistant(message: Message) -> dict | str:
         )
     print(resp)
     if resp.status == 403:
-        return "У Вас закончились запросы. Оформите новые..."
+        return "У Вас закончились запросы. Оформите новые...\nYou have run out of requests. Make new ones..."
     elif resp.status != 200:
-        return "Запрос не корректный!"
+        return "Запрос не корректный!\nThe request is incorrect!"
 
     result = await resp.json(encoding="utf-8")
 
@@ -49,7 +49,7 @@ async def assistant(message: Message) -> dict | str:
             if corr := result["response"]["correction"]:
                 return (
                     "\n".join(corr)
-                    + "\n(Пожалуйста, напишите Ваш запрос заново с учетом ответов на эти вопросы)"
+                    + "\n(Пожалуйста, напишите Ваш запрос заново с учетом ответов на эти вопросы.\nPlease, re-write your request based on the answers to the questions.)"
                 )
             else:
                 report = await create_report(
@@ -59,14 +59,13 @@ async def assistant(message: Message) -> dict | str:
                     user_id=message.from_user.id,
                 )
 
-                return f"""По Вашему запросу найдено следующее бюро:
-Название: {report["name"]}
-Сайт: {report['cite']}
-Описание:
+                return f"""Title: {report["name"]}
+Site: {report['cite']}
+Description:
 {report["description"]}
-Доп. информация:
-Год основания и страна: {report["add_info"]["year"]}, {report["add_info"]["country"]}
-Проекты: {report["add_info"]["projects"]}
+Info:
+Year of foundation and country: {report["add_info"]["year"]}, {report["add_info"]["country"]}
+Projects: {report["add_info"]["projects"]}
 """
 
 
