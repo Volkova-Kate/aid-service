@@ -34,6 +34,6 @@ async def free_bonus(user_id: int, password: str | None = None):
         auth=tg_auth_cred(user_id),
     )
     if resp.status == 200:
-        return "Вам доступно ещё 10 бесплатных запросов!"
+        return "Вам доступно ещё 10 бесплатных запросов!\n\nThere are 10 more free requests available to you!"
     else:
-        return "Пароль неверный!"
+        return "Пароль неверный!\n\nWrong password!"
