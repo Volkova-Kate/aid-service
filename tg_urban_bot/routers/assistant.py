@@ -59,13 +59,11 @@ async def assistant(message: Message) -> dict | str:
                     user_id=message.from_user.id,
                 )
 
-                return f"""{report["name"]}
-{report["add_info"]["year"]}, {report["add_info"]["country"]}
-{report['cite']}
+                return f"""[{report["name"]}]({report["cite"]})
 
 {report["description"]}
 
-{report["add_info"]["projects"]}
+{report["add_info"]["year"]}, {report["add_info"]["country"]}
 """
 
 
@@ -74,4 +72,4 @@ async def assistant(message: Message) -> dict | str:
 )
 async def any_message(message: Message):
     await bot.send_chat_action(message.chat.id, ChatAction.TYPING)
-    await message.answer(await assistant(message))
+    await message.answer(await assistant(message), parse_mode="Markdown")

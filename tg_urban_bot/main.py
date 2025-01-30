@@ -48,6 +48,10 @@ async def balance_command(message: Message):
         f"Подписка: {result['subscription']}\nКоличество запросов: {result['available_requests']}\n\nSubscription: {result['subscription']}\nNumber of requests: {result['available_requests']}"
     )
 
+@dp.message(Command("my_lang"))
+async def get_my_lang(message: Message):
+    lang = message.from_user.language_code
+    await message.answer(f"Ваш язык -- {lang}")
 
 async def set_command_desc(bot: Bot):
     commands = [BotCommand(command=k, description=v) for k, v in COMMAND_LIST.items()]
