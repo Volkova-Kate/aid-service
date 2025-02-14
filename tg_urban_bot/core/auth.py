@@ -24,6 +24,15 @@ async def registration(user_id: int):
     )
     return resp.status == 201
 
+async def status_checker(code: int, user_id: int) -> str | None:
+    if code in {401, 403}:
+        if code == 401:
+            await registration(user_id)
+            return "Ошибка регистрации устранена! Повторите запрос\nRegistration error fixed! Retry your request"
+        return "У Вас закончились запросы. Оформите новые...\nYou have run out of requests. Create new..."
+    if code != 200:
+        return "Запрос некорректный!\nThe request is incorrect!"
+
 
 async def free_bonus(user_id: int, password: str | None = None):
     password = "urban_bonus" if password is None else password
