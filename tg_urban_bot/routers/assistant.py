@@ -2,7 +2,6 @@ import json
 
 from aiogram import Router
 from aiogram.enums import ChatAction
-from aiogram.filters import StateFilter
 from aiogram.types import Message
 from aiohttp import FormData
 from core.auth import registration, status_checker, tg_auth_cred
@@ -79,6 +78,7 @@ async def assistant(message: Message) -> str:
         )
 
     return "Я не могу ответить на данный вопрос..."
+
 
 @router.message(lambda msg: msg.text not in ["/" + k for k in COMMAND_LIST.keys()])
 
