@@ -19,11 +19,11 @@ async def create_report(text: str, tags: list[str], user_id: int) -> str:
         json={"input": text, "tags": tags},
         auth=tg_auth_cred(user_id),
     )
-    return f"""[{report["name"]}]({report["cite"]})
+    return f"""[{data["name"]}]({data["cite"]})
 
-{report["description"]}
+{data["description"]}
 
-{report["add_info"]["year"]}, {report["add_info"]["country"]}
+{data["add_info"]["year"]}, {data["add_info"]["country"]}
 """
 
 
