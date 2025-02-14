@@ -4,6 +4,7 @@ from aiogram import Router
 from aiogram.enums import ChatAction
 from aiogram.types import Message
 from aiohttp import FormData
+from core.async_requests import aioreq
 from core.auth import registration, status_checker, tg_auth_cred
 from core.auth import registration, tg_auth_cred
 from core.utils import COMMAND_LIST
