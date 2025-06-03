@@ -11,11 +11,12 @@ from core.utils import COMMAND_LIST
 
 router = Router()
 
+
 async def create_report(text: str, tags: list[str], user_id: int) -> str:
     data = await aioreq.request_json(
         "/report/",
         "POST",
-        json={"input": text, "tags": tags, count: 5},
+        json={"input": text, "tags": tags},
         auth=tg_auth_cred(user_id),
     )
     return f"""[{data["name"]}]({data["cite"]})
@@ -24,6 +25,7 @@ async def create_report(text: str, tags: list[str], user_id: int) -> str:
 
 {data["add_info"]["year"]}, {data["add_info"]["country"]}
 """
+
 
 async def assistant(message: Message) -> str:
     user_id = message.from_user.id

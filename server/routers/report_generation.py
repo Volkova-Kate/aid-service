@@ -36,4 +36,3 @@ async def report(
     await db.commit()
 
     return result
-
