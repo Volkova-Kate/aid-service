@@ -15,28 +15,15 @@ async def create_report(text: str, tags: list[str], user_id: int) -> str:
     data = await aioreq.request_json(
         "/report/",
         "POST",
-        json={"input": text, "tags": tags},
+        json={"input": text, "tags": tags, count: 5},
         auth=tg_auth_cred(user_id),
     )
-    
-    result = "🏢 Подходящие архитектурные бюро для вашего проекта:\n\n"
-    
-    for i, bureau in enumerate(data["bureaus"]):
-        is_best = "✅ ЛУЧШИЙ ВЫБОР: " if bureau["is_best"] else f"🔹 Вариант {i}: "
-        
-        result += f"{is_best}[{bureau['name']}]({bureau['cite']})\n\n"
-        
-        if bureau["is_best"]:
-            result += f"{bureau['description']}\n\n"
-        
-        result += f"📍 {bureau['add_info']['year']}, {bureau['add_info']['country']}\n"
-        
-        if bureau["is_best"]:
-            result += f"🏗️ Проекты: {bureau['add_info']['projects']}\n"
-        
-        result += "\n---\n\n"
-    
-    return result
+    return f"""[{data["name"]}]({data["cite"]})
+
+{data["description"]}
+
+{data["add_info"]["year"]}, {data["add_info"]["country"]}
+"""
 
 async def assistant(message: Message) -> str:
     user_id = message.from_user.id
