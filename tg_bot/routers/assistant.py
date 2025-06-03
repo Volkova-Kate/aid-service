@@ -17,7 +17,7 @@ async def create_report(text: str, tags: list[str], user_id: int) -> str:
         "/report/",
         "POST",
         json={"input": text, "tags": tags, "count": 5},  # Добавление параметра count
-        auth=tg_auth_cred(user_id),
+        auth=tg_auth_cred(user_id)
     )
     response = ""  # Инициализируем переменную для хранения ответа
 
