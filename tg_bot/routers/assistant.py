@@ -16,15 +16,16 @@ async def create_report(text: str, tags: list[str], user_id: int) -> str:
     data = await aioreq.request_json(
         "/report/",
         "POST",
-        json={"input": text, "tags": tags, count: 5},
+        json={"input": text, "tags": tags, "count": 5},  # Добавление параметра count
         auth=tg_auth_cred(user_id),
     )
-    return f"""[{data["name"]}]({data["cite"]})
+    response = ""  # Инициализируем переменную для хранения ответа
 
-{data["description"]}
+    for bureau in data["bureaus"]:  # Предполагаем, что сервер возвращает список бюро
+        response += f"""[{bureau["name"]}]({bureau["cite"]})\n\n{bureau["description"]}\n\n{bureau["add_info"]["year"]}, {bureau["add_info"]["country"]}\n\n"""
 
-{data["add_info"]["year"]}, {data["add_info"]["country"]}
-"""
+    return response
+
 
 
 async def assistant(message: Message) -> str:
