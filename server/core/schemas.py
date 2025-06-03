@@ -63,10 +63,6 @@ class BureauResponse(BaseModel):
     add_info: BureauAddInfo = Field(description="Доп. информация о бюро")
 
 
-class BureausResponse(BaseModel):
-    bureaus: list[BureauResponse] = Field(description="Список подходящих бюро")
-
-
 class LoginInput(BaseModel):
     username: str = Field(description="Логин")
     password: Annotated[str, StringConstraints(min_length=5)] = Field(

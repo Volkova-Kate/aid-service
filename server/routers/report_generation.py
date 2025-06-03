@@ -11,31 +11,28 @@ router = APIRouter(prefix="/report")
 writer_llm = generate_writer_agent(llm)
 
 
-@router.post("/", response_model=schemas.BureausResponse)  # Изменить response_model
+@router.post("/", response_model=schemas.BureauResponse)
 async def report(
     input_data: schemas.BureauInput,
     user: User = Depends(get_available_user),
     db: AsyncSession = Depends(get_session),
 ):
-    bureaus = await get_relevant_bureau(input_data.tags, res_count=5)  # Изменить на 5
-    
-    # Получаем описания для всех 5 бюро
-    results = []
-    for bureau in bureaus:
-        resp = await writer_llm.ainvoke({"input": input_data.input, "bureaus": [bureau]})
-        result = {
-            "name": bureau["name"],
-            "description": resp["description"],
-            "cite": bureau["cite"],
-            "add_info": {
-                "year": bureau["year"],
-                "country": bureau["country"],
-                "projects": bureau["projects"],
-            },
-        }
-        results.append(result)
+    bureaus = await get_relevant_bureau(input_data.tags)
+    resp = await writer_llm.ainvoke({"input": input_data.input, "bureaus": bureaus})
+    best_bureau = [b for b in bureaus if b["name"] == resp["name"]][0]
+
+    result = {
+        "name": resp["name"],
+        "description": resp["description"],
+        "cite": best_bureau["cite"],
+        "add_info": {
+            "year": best_bureau["year"],
+            "country": best_bureau["country"],
+            "projects": best_bureau["projects"],
+        },
+    }
 
     user.available_requests -= 1
     await db.commit()
 
-    return {"bureaus": results}
+    return result

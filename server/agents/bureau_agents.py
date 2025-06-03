@@ -23,26 +23,16 @@ Avoid obvious tags like [architecture, urban planning, etc.]; instead, focus on 
 
 writer_agent_schema = {
     "title": "writer-bureau",
-    "description": "Analyze architectural bureaus from the BUREAUS block that match the user's request from INPUT. Provide descriptions for each bureau.",
+    "description": "Select the best architectural bureau from the BUREAUS block that matches the user's request from INPUT. Provide a detailed description of the selected bureau in the report. Write information in the language specified in the INPUT block.",
     "type": "object",
     "properties": {
-        "bureaus": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "name": {"description": "The name of the bureau.", "type": "string"},
-                    "description": {
-                        "description": "A brief description of the bureau and how it can assist the user with their request.",
-                        "type": "string",
-                    },
-                },
-                "required": ["name", "description"],
-            },
-            "maxItems": 5,
-        }
+        "name": {"description": "The name of the best bureau.", "type": "string"},
+        "description": {
+            "description": "A brief description of the bureau and how it can assist the user with their request.",
+            "type": "string",
+        },
     },
-    "required": ["bureaus"],
+    "required": ["name", "descr"],
 }
 
 
