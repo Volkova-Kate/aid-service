@@ -54,14 +54,26 @@ class BureauAddInfo(BaseModel):
     country: str | None = Field(description="Страна бюро")
     projects: str | None = Field(description="Релевантные проекты бюро")
 
+class BureauDetail(BaseModel):
+    name: str = Field(description="Название бюро")
+    description: str = Field(description="Описание бюро")
+    cite: str | None = Field(description="Сайт бюро")
+    add_info: BureauAddInfo = Field(description="Доп. информация о бюро")
+    is_best: bool = Field(description="Является ли бюро лучшим выбором", default=False)
 
 class BureauResponse(BaseModel):
     name: str = Field(description="Название бюро")
     description: str = Field(description="Описание бюро")
     cite: str | None = Field(description="Сайт бюро")
-
     add_info: BureauAddInfo = Field(description="Доп. информация о бюро")
+    bureaus: list[BureauDetail] = Field(description="Список подходящих бюро", default=[])
 
+#class BureauResponse(BaseModel):
+#    name: str = Field(description="Название бюро")
+#    description: str = Field(description="Описание бюро")
+#    cite: str | None = Field(description="Сайт бюро")
+#
+#    add_info: BureauAddInfo = Field(description="Доп. информация о бюро")
 
 class LoginInput(BaseModel):
     username: str = Field(description="Логин")
