@@ -66,7 +66,7 @@ async def init_chromadb():
         raise Exception("Empty database")
 
 
-async def get_relevant_bureau(tags: list[str], res_count: int = 3) -> dict:
+async def get_relevant_bureau(tags: list[str], res_count: int = 5) -> dict:  # Изменить на 5
     collection = await get_bureau_collection()
 
     query_emb = np.mean(await embeddings.aembed_documents(tags), axis=0)

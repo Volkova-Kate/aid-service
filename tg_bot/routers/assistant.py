@@ -19,12 +19,17 @@ async def create_report(text: str, tags: list[str], user_id: int) -> str:
         json={"input": text, "tags": tags},
         auth=tg_auth_cred(user_id),
     )
-    return f"""[{data["name"]}]({data["cite"]})
-
-{data["description"]}
-
-{data["add_info"]["year"]}, {data["add_info"]["country"]}
-"""
+    
+    # Формируем ответ для всех бюро
+    result_text = "🏢 **Подходящие архитектурные бюро:**\n\n"
+    
+    for i, bureau in enumerate(data["bureaus"], 1):
+        result_text += f"**{i}. [{bureau['name']}]({bureau['cite']})**\n"
+        result_text += f"{bureau['description']}\n"
+        result_text += f"📅 {bureau['add_info']['year']}, 📍 {bureau['add_info']['country']}\n"
+        result_text += "─" * 30 + "\n\n"
+    
+    return result_text
 
 
 async def assistant(message: Message) -> str:
